@@ -1,6 +1,7 @@
 {
   "name": "boiler-plate-typescript",
   "version": "0.1.0",
+  "homepage": "https://abdulkadir-posul.github.io/react-boiler-plate-typescript/",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
@@ -17,6 +18,7 @@
     "@ungap/event-target": "^0.2.3",
     "axios": "^0.21.1",
     "classnames": "^2.3.1",
+    "gh-pages": "^3.2.3",
     "i18next": "^20.5.0",
     "langmap": "^0.0.16",
     "react": "^17.0.2",
@@ -53,5 +55,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "predeploy": "npm run build",
+  "deploy": "gh-pages -d build"
+  
 }
