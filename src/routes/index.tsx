@@ -46,7 +46,7 @@ const routes = [
 ];
 
 export default function AppRoutes() {
-  const isAuthenticated = useSelector((state) => state.user.logged);
+  const isAuthenticated = useSelector((state: any) => state.user.logged);
   const props = {
     isAuthenticated,
     loginPath,

@@ -1,7 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function Logo({ altText = 'Seven Senders' }) {
+
+interface LogoProp {
+  altText?: string
+}
+
+export default function Logo({ altText = 'Seven Senders' }: LogoProp) {
   return (
     <div className="logo">
       <img src={require('./logo.png')} alt={altText} />

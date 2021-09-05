@@ -1,3 +1,4 @@
+import { CancelTokenSource } from 'axios';
 import { createCancelToken } from '../../api';
 import AuthService from '../../api/AuthService';
 import storage from '../../storage';
@@ -18,15 +19,15 @@ export const types = {
 let listeningAPIEvents = false;
 
 const onRegenerateTokenSuccess =
-  (dispatch) =>
-  ({ detail: data }) => {
+  (dispatch: any) =>
+  ({ detail: data }: any) => {
     const { token, refresh_token } = data;
     const rememberMe = storage.get('rememberMe') === 'true';
 
     dispatch(setToken(token, rememberMe && refresh_token));
   };
 
-const onRegenerateTokenFailure = (dispatch) => () => {
+const onRegenerateTokenFailure = (dispatch: any) => () => {
   dispatch(logout());
 };
 
@@ -34,7 +35,7 @@ const onRegenerateTokenFailure = (dispatch) => () => {
  * Actions
  */
 
-const setToken = (token, refreshToken) => {
+const setToken = (token: string, refreshToken: string) => {
   storage.set('token', token);
   refreshToken && storage.set('refreshToken', refreshToken);
 
@@ -46,15 +47,15 @@ const setToken = (token, refreshToken) => {
   };
 };
 
-const setRoles = (roles) => ({
+const setRoles = (roles: string[]) => ({
   type: types.SET_USER_ROLES,
   payload: roles,
 });
 
-export const init = () => (dispatch) => {
+export const init = () => (dispatch: any) => {
   const token = storage.get('token');
-  const refreshToken = storage.get('refreshToken');
-  const rememberMe = storage.get('rememberMe') === 'true';
+  const refreshToken: boolean = storage.get('refreshToken') === 'true';
+  const rememberMe: boolean = (storage.get('rememberMe') === 'true');
 
   if (!listeningAPIEvents) {
     authService.listen('regenerate_success', onRegenerateTokenSuccess(dispatch));
@@ -67,20 +68,20 @@ export const init = () => (dispatch) => {
     return;
   }
 
-  dispatch(setToken(token, rememberMe && refreshToken));
+  dispatch(setToken(token, String(rememberMe && refreshToken)));
 
   return dispatch(userDetails());
 };
 
-const setLoginError = (error) => ({
+const setLoginError = (error: any) => ({
   type: types.LOGIN_ERROR,
   payload: error,
 });
 
-export const login = (username, password, rememberMe) => (dispatch) => {
+export const login = (username: string, password: string, rememberMe: boolean) => (dispatch: any) => {
   let canceller = createCancelToken();
 
-  storage.set('rememberMe', rememberMe);
+  storage.set('rememberMe', String(rememberMe));
 
   dispatch(loaderActions.setLoading(true));
   dispatch(setLoginError(null));
@@ -89,7 +90,7 @@ export const login = (username, password, rememberMe) => (dispatch) => {
     .then(({ data }) => {
       const { token, refresh_token } = data;
       
-      dispatch(setToken(token, rememberMe && refresh_token));
+      dispatch(setToken(token, String(rememberMe && refresh_token)));
       dispatch(userDetails(canceller));
     })
     .catch(({ response }) => {
@@ -107,14 +108,14 @@ export const login = (username, password, rememberMe) => (dispatch) => {
   return canceller;
 };
 
-export const logout = () => (dispatch) => {
+export const logout = () => (dispatch: any) => {
   storage.clear();
   dispatch({ type: types.LOGOUT });
 };
 
 export const userDetails =
-  (cancelToken = null) =>
-  (dispatch) => {
+  (cancelToken: null | CancelTokenSource = null) =>
+  (dispatch: any) => {
     const canceller = cancelToken || createCancelToken();
 
     dispatch(loaderActions.setLoading(true));

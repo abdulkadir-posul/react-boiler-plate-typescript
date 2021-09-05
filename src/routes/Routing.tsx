@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from 'react';
+import React, { ReactElement, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch, Redirect, useRouteMatch } from 'react-router-dom';
 
@@ -6,13 +6,13 @@ import AuthenticatedRoute from './AuthenticatedRoute';
 
 const CATCH_ALL_ROUTE = '*';
 
-export default function Routing({ routes, ...extraProps }) {
+export default function Routing({ routes, ...extraProps }: any) {
   let { path: matchedPath } = useRouteMatch();
 
-  let IndexRoute = useRef(null);
+  let IndexRoute = useRef<ReactElement<any, any> | null>(null);
   const Routes = useMemo(
     () =>
-      routes.map((route, key) => {
+      routes.map((route: any, key:any) => {
         const { private: isPrivate, index, path, ...props } = route;
         const RouteType = isPrivate ? AuthenticatedRoute : Route;
 

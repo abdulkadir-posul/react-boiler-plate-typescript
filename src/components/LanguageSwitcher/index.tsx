@@ -4,19 +4,25 @@ import langMap from 'langmap';
 
 import useOutsideClick from '../../utils/hooks/useOutsideClick';
 
-export default function LanguageSwitcher({ languages, language, onSelect }) {
+interface LanguageSwitcherProp {
+  languages: readonly string[],
+  language: string,
+  onSelect: any
+}
+
+export default function LanguageSwitcher({ languages, language, onSelect }: LanguageSwitcherProp) {
   const [isSelectorOpen, setSelectorOpen] = useState(false);
   const wrapperRef = useRef(null);
 
-  const sortedLanguages = useMemo(() => languages.sort(), [languages]);
+  const sortedLanguages = useMemo(() => [...languages].sort(), [languages]);
 
-  const toggleSelector = (e) => {
-    e.preventDefault();
+  const toggleSelector = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
     setSelectorOpen(!isSelectorOpen);
   };
 
-  const changeLanguage = (language) => async (e) => {
-    e.preventDefault();
+  const changeLanguage = (language: string) => async (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
     onSelect(language);
     setSelectorOpen(false);
   };
@@ -30,7 +36,7 @@ export default function LanguageSwitcher({ languages, language, onSelect }) {
       </button>
       {isSelectorOpen && (
         <div className="languages">
-          {sortedLanguages.map((language, key) => (
+          {sortedLanguages.map((language:string, key: any) => (
             <a
               className={`language ${language}`}
               href={`#${language}`}

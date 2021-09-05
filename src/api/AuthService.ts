@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosInstance, CancelTokenSource } from 'axios';
 import EventTarget from '@ungap/event-target';
 import config from '../config';
 
@@ -10,6 +10,14 @@ export const endpoints = {
 };
 
 export default class AuthService {
+  
+  injectedInterceptors: boolean;
+  refreshingToken: boolean;
+  axios: AxiosInstance;
+  eventEmitter: EventTarget;
+  token: string = "";
+  refreshToken: string = 'true';
+
   constructor() {
     const baseURL = config.baseURL;
     this.injectedInterceptors = false;
@@ -29,7 +37,7 @@ export default class AuthService {
    * @param config
    * @returns {*}
    */
-  verifyToken(config) {
+  verifyToken(config: any) {
     /**
      * TODO verify token
      */
@@ -41,7 +49,7 @@ export default class AuthService {
     return { ...this.axios.defaults.headers.common };
   }
 
-  listen(type, fn) {
+  listen(type: any, fn: any) {
     return this.eventEmitter.addEventListener(type, fn);
   }
 
@@ -50,7 +58,7 @@ export default class AuthService {
    * @param token
    * @param refreshToken
    */
-  setToken(token, refreshToken = null) {
+  setToken(token: string, refreshToken: string = 'true') {
     this.token = token;
     this.refreshToken = refreshToken;
     this.axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -61,8 +69,8 @@ export default class AuthService {
    * @param cancelToken
    * @returns {{}}
    */
-  getConfig({ cancelToken }) {
-    const config = {};
+  getConfig({ cancelToken }: any) {
+    const config: any = {};
 
     if (cancelToken && cancelToken.token) {
       config.cancelToken = cancelToken.token;
@@ -76,7 +84,7 @@ export default class AuthService {
     return await this.axios.post(endpoints.login, { username, password }, config);
   }*/
 
-  async login(username, password, cancelToken = null) {
+  async login(username: string, password: string, cancelToken: null | CancelTokenSource = null) {
     return await Promise.resolve({data:{token: "my_token", refresh_token:true}});
   }
 
@@ -86,11 +94,11 @@ export default class AuthService {
     return await this.axios.get(endpoints.userDetails, config);
   }*/
 
-  async userDetails(cancelToken = null) {
+  async userDetails(cancelToken: null | CancelTokenSource = null) {
     return await Promise.resolve({data:{roles: ["admin"]}});
   }
 
-  async generateToken(refreshToken, cancelToken = null) {
+  async generateToken(refreshToken: boolean, cancelToken: null = null) {
     const config = this.getConfig({ cancelToken });
 
     return await this.axios.post(endpoints.refreshToken, { refresh_token: refreshToken }, config);

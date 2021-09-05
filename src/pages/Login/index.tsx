@@ -8,7 +8,7 @@ import { actions as userActions } from '../../store/user';
 
 export default function Login() {
   const { t } = useTranslation();
-  const isLoggedIn = useSelector((state) => state.user.logged);
+  const isLoggedIn = useSelector((state: any) => state.user.logged);
   const [username] = useState('');
   const [password] = useState('');
   const [rememberMe] = useState(false);
@@ -18,8 +18,8 @@ export default function Login() {
   const dispatch = useDispatch();
   let {
     from: { pathname },
-  } = location.state || { from: { pathname: '/' } };
-  const cancellerLoginRequest = useRef(null);
+  }: any = location.state || { from: { pathname: '/' } };
+  const cancellerLoginRequest = useRef<any | null>(null);
 
   useEffect(() => {
     !isLoggedIn && dispatch(userActions.init());
@@ -31,7 +31,7 @@ export default function Login() {
     };
   }, []);
 
-  const doLogin = ({ username, password, rememberMe }) => {
+  const doLogin = ({ username, password, rememberMe }: any) => {
    
     cancellerLoginRequest.current && cancellerLoginRequest.current.cancel();
     cancellerLoginRequest.current = dispatch(userActions.login(username, password, rememberMe));
@@ -51,7 +51,7 @@ export default function Login() {
       <input type="password"></input>
       <br></br>
       <br></br>
-      <button onClick={()=>doLogin(username, password, rememberMe)}>{t('Login')}</button>
+      <button onClick={()=>doLogin({username, password, rememberMe})}>{t('Login')}</button>
     </div>
   );
 }

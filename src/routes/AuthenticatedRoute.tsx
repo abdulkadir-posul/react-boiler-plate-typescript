@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, useHistory, useLocation } from 'react-router-dom';
 
-export default function AuthenticatedRoute({ isAuthenticated, loginPath, ...props }) {
+export default function AuthenticatedRoute({ isAuthenticated, loginPath, ...props }: any) {
   const history = useHistory();
   const location = useLocation();
 

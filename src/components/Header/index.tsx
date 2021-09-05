@@ -2,7 +2,11 @@ import React from 'react';
 import Logo from '../Logo';
 import { Link } from 'react-router-dom';
 
-export default function Header({ children }) {
+interface HeaderProp {
+  children: any
+}
+
+export default function Header({ children }: HeaderProp) {
   return (
     <header>
       <div className="container">

@@ -1,6 +1,7 @@
 {
   "name": "boiler-plate-typescript",
   "version": "0.1.0",
+  "description": "Boiler-plate for reactjs typescript",
   "homepage": "https://abdulkadir-posul.github.io/react-boiler-plate-typescript/",
   "private": true,
   "dependencies": {
@@ -9,6 +10,7 @@
     "@testing-library/user-event": "^12.1.10",
     "@types/classnames": "^2.3.1",
     "@types/jest": "^26.0.15",
+    "@types/langmap": "^0.0.1",
     "@types/node": "^12.0.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",

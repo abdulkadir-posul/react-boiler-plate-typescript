@@ -1,8 +1,14 @@
 import produce from 'immer';
 import { types as actionTypes } from './actions';
 
+
+interface IState {
+  inProcess: number,
+  loading: boolean
+}
+
 const reducersMap = {
-  [actionTypes.SET_LOADING]: (state, isLoading) => {
+  [actionTypes.SET_LOADING]: (state: IState, isLoading: boolean) => {
     state.inProcess += isLoading ? 1 : -1;
 
     if (state.inProcess <= 0) {
@@ -21,7 +27,7 @@ const initialState = {
   inProcess: 0,
 };
 
-const exportedFunction =  (state = initialState, { type: actionType, payload }) =>
+const exportedFunction =  (state: IState = initialState, { type: actionType, payload }: any) =>
   produce(state, (draft) => (actionType in reducersMap && reducersMap[actionType](draft, payload)) || state);
 
 export default exportedFunction;

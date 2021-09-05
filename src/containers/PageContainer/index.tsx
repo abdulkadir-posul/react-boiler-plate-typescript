@@ -10,9 +10,14 @@ import { IconButton } from '../../components/IconButton';
 
 import { Link } from 'react-router-dom';
 
-export default function PageContainer({ children }) {
-  const isLoggedIn = useSelector((state) => state.user.logged);
-  const isLoading = useSelector((state) => state.loader.loading);
+
+interface PageContainerProp {
+  children: any
+}
+
+export default function PageContainer({ children }: PageContainerProp) {
+  const isLoggedIn = useSelector((state: any) => state.user.logged);
+  const isLoading = useSelector((state: any) => state.loader.loading);
   const { t, i18n } = useTranslation();
   const { language, languages } = i18n;
 
@@ -20,7 +25,7 @@ export default function PageContainer({ children }) {
     'guest-user': !isLoggedIn,
   });
 
-  const onLangSelect = async (language) => {
+  const onLangSelect = async (language: string) => {
     await i18n.changeLanguage(language);
   };
 
